@@ -8,10 +8,10 @@
                     <a  [ngClass]="{'active' : i === currentIndex}" (click)="selectPassword(i)">{{ password.url }}</a> <!-- Affiche l'URL du site -->
                 </li>
                 <li>
-                    <button class="btn btn-primary" (click)="toggleAddForm()">Add</button>
+                    <button class="btn btn-active btn-ghost mt-3" (click)="toggleAddForm()">Add</button>
                 </li>
             </ul>
-            <button class="link link-hover" (click)="logout()">Sign Out</button>
+            <button class="link link-hover" (click)="logout()"><i class="bi bi-box-arrow-left"></i> Sign Out</button>
         </div>
         <div class="w-4/5 p-4 pt-20 flex justify-center">
                     <div class="flex flex-col gap-4">

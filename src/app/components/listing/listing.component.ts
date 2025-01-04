@@ -84,9 +84,9 @@ export class ListingComponent implements OnInit {
             email: this.email,
             password: this.password
           }).then(() => {
-            this.message ='Mot de passe mis à jour avec succès';
+            this.message ='Password updated successfully';
           }).catch((error) => {
-            console.error('Erreur lors de la mise à jour du mot de passe', error);
+            console.error('Error updating password', error);
           });
         }
       });
@@ -96,9 +96,9 @@ export class ListingComponent implements OnInit {
     this.auth.currentUser.then(user => {
       if (user) {
         this.db.collection('passwords').doc(this.passwords[this.currentIndex].id).delete().then(() => {
-          console.log('Mot de passe supprimé avec succès');
+          console.log('Password successfully removed');
         }).catch((error) => {
-          console.error('Erreur lors de la suppression du mot de passe', error);
+          console.error('Error deleting password', error);
         });
       }
     });
