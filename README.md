@@ -29,3 +29,26 @@ npm install
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
+## Configuration Firebase
+
+### Create a Firebase Project :
+
+- Sign in to the Firebase Console.
+
+- Create a new project and enable the following services:
+
+- Authentication: Enable the email/password authentication provider.
+- Firestore Database: Configure Firestore in "Start in test mode" (you can switch to secure mode later).
+- Retrieve your Firebase configuration details:
+
+- Navigate to your Firebase project settings.
+Copy the following keys:
+** apiKey
+** authDomain
+** projectId
+** storageBucket
+** messagingSenderId
+** appId
+
+
+
