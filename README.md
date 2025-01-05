@@ -24,6 +24,36 @@ cd manage-pass
 
 npm install
 
+## Fonctionnalités
+
+Authentification Firebase :
+
+Inscription et connexion via email et mot de passe.
+
+### Gestion des identifiants :
+
+Accédez à une liste de vos sites enregistrés contenant :
+
+Email
+URL
+Mot de passe
+Nom d'utilisateur (username)
+
+### Ajout et modification des identifiants :
+
+- Ajoutez de nouveaux identifiants.
+- Modifiez ou supprimez des entrées existantes.
+- Gestion sécurisée des données avec Firestore :
+
+- Toutes les données des utilisateurs sont stockées dans une base Firestore sécurisée.
+
+### La possibilité de générer un mot de passe : 
+
+Automatiquement en cliquant sur le bouton Générer.
+
+### Copie rapide des mots de passe :
+
+Copiez vos mots de passe en un clic.
 
 ## Configuration Firebase
 
