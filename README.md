@@ -119,4 +119,21 @@ url : URL du site.
 password : Mot de passe du site.
 username : Nom d'utilisateur associé à l'identifiant.
 
-![Capture de l'application](Capture d’écran 2025-01-05 à 22.26.57.png)
+## Capture d’écran de l'application
+
+### La page de connexion
+
+<img width="1447" alt="Capture d’écran 2025-01-05 à 22 33 12" src="https://github.com/user-attachments/assets/f46bfd5e-4746-4c33-bb3c-f43a9cf9374f" />
+
+### La page d'inscription 
+
+<img width="1447" alt="Capture d’écran 2025-01-05 à 22 31 34" src="https://github.com/user-attachments/assets/a5fba6f5-e444-4c7d-9892-9f05d0fc087d" />
+
+## Listing
+
+<img width="1453" alt="Capture d’écran 2025-01-05 à 22 44 42" src="https://github.com/user-attachments/assets/4b904d59-65f6-4de2-bdd6-0f51de27de83" />
+
+## L'ajout 
+
+<img width="1453" alt="Capture d’écran 2025-01-05 à 22 45 38" src="https://github.com/user-attachments/assets/feea4d01-7472-4186-8e6c-ddeddf9fb7ae" />
+
