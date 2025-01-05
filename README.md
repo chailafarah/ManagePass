@@ -14,13 +14,13 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Installation
 
-Clonez le dépôt GitHub :
+Clone the GitHub repository:
 
 git clone https://github.com/chailafarah/ManagePass.git
 
 cd manage-pass
 
-### Installez les dépendances 
+### Install dependencies:
 
 npm install
 
