@@ -1,5 +1,7 @@
 # AngularManagePass
 
+Manage Pass est une application moderne de gestion de mots de passe qui permet aux utilisateurs de gérer facilement et en toute sécurité leurs identifiants pour différents sites web.
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.9.
 
 ## Development server
