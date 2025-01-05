@@ -119,3 +119,4 @@ url : URL du site.
 password : Mot de passe du site.
 username : Nom d'utilisateur associé à l'identifiant.
 
+![Capture de l'application](Capture d’écran 2025-01-05 à 22.26.57.png)
