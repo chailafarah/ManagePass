@@ -4,51 +4,88 @@ Manage Pass est une application moderne de gestion de mots de passe qui permet a
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.9.
 
-## Development server
+## Serveur de développement
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Exécutez ng serve pour démarrer un serveur de développement. Accédez à http://localhost:4200/. L'application se rechargera automatiquement si vous modifiez l'un des fichiers sources.
 
-## Build
+## Compilation
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Exécutez ng build pour compiler le projet. Les artefacts de compilation seront stockés dans le répertoire dist/.
 
 ## Installation
 
-Clone the GitHub repository:
+Clonez le dépôt GitHub :
 
 git clone https://github.com/chailafarah/ManagePass.git
 
 cd manage-pass
 
-### Install dependencies:
+### Installez les dépendances :
 
 npm install
 
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
 ## Configuration Firebase
 
-### Create a Firebase Project :
+### Créer un projet Firebase :
 
-- Sign in to the Firebase Console.
+- Connectez-vous à Firebase Console.
+- Créez un projet et activez les services suivants :
+- Authentication : Activez le fournisseur d'authentification par email/mot de passe.
+- Firestore Database : Configurez Firestore en mode "Start in test mode" (modifiable en mode sécurisé plus tard).
+- Obtenez les configurations Firebase :
 
-- Create a new project and enable the following services:
+  Rendez-vous dans les paramètres de votre projet Firebase.
+- Copiez les clés suivantes : apiKey, authDomain, projectId, storageBucket, messagingSenderId, et appId.
+- Configurer l’environnement Firebase :
+- Créez un fichier environnement.developpement.ts dans le dossier src/environments avec le contenu suivant :
 
-- Authentication: Enable the email/password authentication provider.
-- Firestore Database: Configure Firestore in "Start in test mode" (you can switch to secure mode later).
-- Retrieve your Firebase configuration details:
+  **
+export const environment = {
+    firebase: {
+        apiKey: "VOTRE_API_KEY",
+        authDomain: "VOTRE_AUTH_DOMAIN",
+        projectId: "VOTRE_PROJECT_ID",
+        storageBucket: "VOTRE_STORAGE_BUCKET",
+        messagingSenderId: "VOTRE_MESSAGING_SENDER_ID",
+        appId: "VOTRE_APP_ID"
+    }
+};**
 
-- Navigate to your Firebase project settings.
-Copy the following keys:
-** apiKey
-** authDomain
-** projectId
-** storageBucket
-** messagingSenderId
-** appId
 
+## Utilisation
 
+### Authentification :
+
+Créez un compte ou connectez-vous via email et mot de passe.
+
+### Ajout d'un identifiant :
+
+Ajoutez une entrée avec les champs suivants :
+
+* URL
+* Email
+* Mot de passe
+* Nom d'utilisateur
+* Modification/Suppression :
+
+Modifiez ou supprimez des entrées existantes.
+
+### Copie rapide :
+
+Utilisez l'option de copie pour récupérer rapidement un mot de passe.
+
+## Structure de la base de données Firestore
+
+La base de données Firestore est organisée de la manière suivante :
+
+Collection : passwords
+
+Chaque document représente une entrée utilisateur et contient les champs suivants :
+
+uid : Identifiant unique de l'utilisateur.
+email : Email associé au compte.
+url : URL du site.
+password : Mot de passe du site.
+username : Nom d'utilisateur associé à l'identifiant.
 
