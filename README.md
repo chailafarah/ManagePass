@@ -8,6 +8,18 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Exécutez ng serve pour démarrer un serveur de développement. Accédez à http://localhost:4200/. L'application se rechargera automatiquement si vous modifiez l'un des fichiers sources.
 
+## Serveur de chiffrement et déchiffrement
+
+Ce projet contient un serveur dédié aux opérations de chiffrement et de déchiffrement des données. Voici comment le démarrer :
+
+1. Accédez au dossier du projet :
+
+*   cd express
+
+2. Lancez le serveur avec la commande suivante :
+
+*  node dist/server.js
+
 ## Compilation
 
 Exécutez ng build pour compiler le projet. Les artefacts de compilation seront stockés dans le répertoire dist/.
