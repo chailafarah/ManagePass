@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { PasswordService } from '../../services/password.service';
 import { HttpClient } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-listing',
@@ -30,9 +31,11 @@ export class ListingComponent implements OnInit {
 
   @ViewChild('passwordInput') passwordInputRef!: ElementRef;
 
-  constructor(public http: HttpClient, public auth: AngularFireAuth, private db: AngularFirestore, private router: Router, private passwordService: PasswordService) { }
+  constructor(public http: HttpClient, public auth: AngularFireAuth, private db: AngularFirestore, private router: Router, private passwordService: PasswordService,private toastr: ToastrService) { }
 
   ngOnInit(): void {
+    this.toastr.success('TEST');
+
     this.auth.authState.subscribe(user => {
       if (user) {
         console.log('user is logged in');
@@ -68,7 +71,7 @@ export class ListingComponent implements OnInit {
       this.http.post('http://localhost:3000/api/encrypt-aes-gcm', { plainText: this.password, password: 'chaimaa' })
         .subscribe((response: any) => {
           if (this.currentIndex === -1) { // Vérifier si l'élément est nouveau ou existant
-            this.auth.currentUser.then(user => { // Utilisation de `currentUser` au lieu de `authState`
+            this.auth.currentUser.then(user => { // Utilisation de `currentUser` pour obtenir l'utilisateur actuel
               if (user) {
                 this.db.collection('passwords').add({
                   uid: user.uid,
@@ -78,9 +81,10 @@ export class ListingComponent implements OnInit {
                   password: response.encryptedData
                 }).then((data) => {
                   this.currentIndex = this.passwords.findIndex(password => password.id === data.id);
-                  console.log('Mot de passe ajouté avec succès');
+                  this.toastr.success('Password added successfully');
                 }).catch((error) => {
-                  console.error('Erreur lors de l\'ajout du mot de passe', error);
+                  console.error('Error adding password', error);
+                  this.toastr.error('Error adding password');
                 });
               }
             });
@@ -93,9 +97,10 @@ export class ListingComponent implements OnInit {
                   email: this.email,
                   password: response.encryptedData
                 }).then(() => {
-                  this.message ='Password updated successfully';
+                  this.toastr.success('Password updated successfully');
                 }).catch((error) => {
                   console.error('Error updating password', error);
+                  this.toastr.error('Error updating password');
                 });
               }
             });
@@ -108,9 +113,10 @@ export class ListingComponent implements OnInit {
     this.auth.currentUser.then(user => {
       if (user) {
         this.db.collection('passwords').doc(this.passwords[this.currentIndex].id).delete().then(() => {
-          console.log('Password successfully removed');
+          this.toastr.success('Password successfully removed');
         }).catch((error) => {
           console.error('Error deleting password', error);
+         this.toastr.error('Error deleting password');
         });
       }
     });
