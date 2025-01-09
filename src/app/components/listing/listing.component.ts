@@ -34,15 +34,14 @@ export class ListingComponent implements OnInit {
   constructor(public http: HttpClient, public auth: AngularFireAuth, private db: AngularFirestore, private router: Router, private passwordService: PasswordService,private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.toastr.success('TEST');
-
     this.auth.authState.subscribe(user => {
       if (user) {
         console.log('user is logged in');
         this.db.collection('passwords', ref => ref.where('uid', '==', user.uid))
           .valueChanges({ idField: 'id' }) // Méthode réactive pour écouter les modifications
           .subscribe((data: any[]) => {
-            this.passwords = data.sort((a, b) => a.url.localeCompare(b.url));
+            this.passwords = data
+              .sort((a, b) => a.url.localeCompare(b.url));
 
             if (this.currentIndex < 0) {
               this.selectPassword(0);
@@ -68,52 +67,69 @@ export class ListingComponent implements OnInit {
   }
 
   addPassword() {
-      this.http.post('http://localhost:3000/api/encrypt-aes-gcm', { plainText: this.password, password: 'chaimaa' })
+    if (this.currentIndex === -1) { // Vérifier si l'élément est nouveau ou existant
+      this.http.post(`http://localhost:3000/api/encrypt-aes-gcm`, { plainText: this.password, password: 'chaimaa' })
+      .subscribe((response: any) => {
+          this.auth.currentUser.then(user => { // Utilisation de `currentUser` pour obtenir l'utilisateur actuel
+            if (user) {
+              this.db.collection('passwords').add({
+                uid: user.uid,
+                username: this.username,
+                url: this.url,
+                email: this.email,
+                password: response.encryptedData
+              }).then((data) => {
+                this.currentIndex = this.passwords.findIndex(password => password.id === data.id);
+                this.toastr.success('Add successfully');
+              }).catch((error) => {
+                console.error('Error adding password', error);
+                this.toastr.error('Error adding password');
+              });
+            }
+          });
+      });
+    } else if (this.passwords[this.currentIndex].password !== this.password) {
+      this.http.post(`http://localhost:3000/api/encrypt-aes-gcm`, { plainText: this.password, password: 'chaimaa' })
         .subscribe((response: any) => {
-          if (this.currentIndex === -1) { // Vérifier si l'élément est nouveau ou existant
-            this.auth.currentUser.then(user => { // Utilisation de `currentUser` pour obtenir l'utilisateur actuel
-              if (user) {
-                this.db.collection('passwords').add({
-                  uid: user.uid,
-                  username: this.username,
-                  url: this.url,
-                  email: this.email,
-                  password: response.encryptedData
-                }).then((data) => {
-                  this.currentIndex = this.passwords.findIndex(password => password.id === data.id);
-                  this.toastr.success('Password added successfully');
-                }).catch((error) => {
-                  console.error('Error adding password', error);
-                  this.toastr.error('Error adding password');
-                });
-              }
-            });
-          } else {
-            this.auth.currentUser.then(user => {
-              if (user) {
-                this.db.collection('passwords').doc(this.passwords[this.currentIndex].id).update({
-                  username: this.username,
-                  url: this.url,
-                  email: this.email,
-                  password: response.encryptedData
-                }).then(() => {
-                  this.toastr.success('Password updated successfully');
-                }).catch((error) => {
-                  console.error('Error updating password', error);
-                  this.toastr.error('Error updating password');
-                });
-              }
-            });
-          }
-
-          console.log('Response from server:', response);
+          this.auth.currentUser.then(user => {
+            if (user) {
+              this.db.collection('passwords').doc(this.passwords[this.currentIndex].id).update({
+                username: this.username,
+                url: this.url,
+                email: this.email,
+                password: response.encryptedData
+              }).then(() => {
+                this.toastr.success('Update successfully');
+              }).catch((error) => {
+                console.error('Error updating password', error);
+                this.toastr.error('Error updating password');
+              });
+            }
+          });
         });
+    } else {
+      this.auth.currentUser.then(user => {
+        if (user) {
+          this.db.collection('passwords').doc(this.passwords[this.currentIndex].id).update({
+            username: this.username,
+            url: this.url,
+            email: this.email,
+            password: this.password
+          }).then(() => {
+            this.toastr.success('Update successfully');
+          }).catch((error) => {
+            console.error('Error updating password', error);
+            this.toastr.error('Error updating password');
+          });
+        }
+      });
+    }
   }  
   deletePassword() {
     this.auth.currentUser.then(user => {
       if (user) {
         this.db.collection('passwords').doc(this.passwords[this.currentIndex].id).delete().then(() => {
-          this.toastr.success('Password successfully removed');
+          this.toastr.success('Remove successfully');
         }).catch((error) => {
           console.error('Error deleting password', error);
          this.toastr.error('Error deleting password');
@@ -159,6 +175,7 @@ export class ListingComponent implements OnInit {
           this.passwordInputRef.nativeElement.select(); 
           //reset the visibility of the password
           this.isPasswordVisible = true;
+          this.toastr.success('Password copied successfully');
         }).catch((error) => {
           console.error('Error copying password to clipboard', error);
         });
@@ -166,8 +183,10 @@ export class ListingComponent implements OnInit {
   }
 
   onBlur(): void {
-    this.password = this.decryptedPassword;
-    this.decryptedPassword = '';
-    this.isPasswordVisible = false;
+    if (this.isPasswordVisible) {
+      this.password = this.decryptedPassword;
+      this.decryptedPassword = '';
+      this.isPasswordVisible = false;  
+    }
   }
 }
